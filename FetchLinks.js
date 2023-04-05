@@ -94,15 +94,21 @@ var keywords = [
 
 function handleSS(rest) {
   if (rest) {
-    const hashIndex = rest.lastIndexOf('#');
-    let remark = '';
-    if (hashIndex > 0) {
-      remark = decodeURIComponent(rest.substring(hashIndex + 1));
-      const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
-      const matched = remark.match(pattern);
-      if (matched) {
-        remark = matched[0];
-        return rest.substring(0, hashIndex + 1) + encodeURIComponent(remark);
+    const isPlugin = rest.indexOf("plugin");
+    const isObfs = rest.indexOf("obfs");
+    if ((isPlugin > 0 && isObfs > 0) || (isPlugin < 0 && isObfs < 0)) {
+      const hashIndex = rest.lastIndexOf('#');
+      let remark = '';
+      if (hashIndex > 0) {
+        remark = decodeURIComponent(rest.substring(hashIndex + 1));
+        const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
+        const matched = remark.match(pattern);
+        if (matched) {
+          remark = matched[0];
+          return rest.substring(0, hashIndex + 1) + encodeURIComponent(remark);
+        } else {
+          return '';
+        }
       } else {
         return '';
       }
