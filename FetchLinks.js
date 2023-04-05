@@ -56,6 +56,12 @@ async function handleRequest() {
             ret += `${protocol}://${c}\r\n`;
           }
           break;
+        case "trojan":
+          let d = handleSS(rest);
+          if (d) {
+            ret += `${protocol}://${d}\r\n`;
+          }
+          break;
         default:
           break;
       }
