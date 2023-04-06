@@ -17,7 +17,7 @@ async function handleRequest() {
   const init = {
     headers: {
       'content-type': 'text/plain',
-      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
     },
   };
 
@@ -38,6 +38,7 @@ async function handleRequest() {
       let [protocol, rest] = link.split('://');
       // 对应协议匹配
       switch (protocol.toLocaleLowerCase()) {
+        case "trojan":
         case "ss":
           let a = handleSS(rest);
           if (a) {
@@ -54,12 +55,6 @@ async function handleRequest() {
           let c = handleVmess(rest);
           if (c) {
             ret += `${protocol}://${c}\r\n`;
-          }
-          break;
-        case "trojan":
-          let d = handleSS(rest);
-          if (d) {
-            ret += `${protocol}://${d}\r\n`;
           }
           break;
         default:
