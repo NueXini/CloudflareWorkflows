@@ -23,7 +23,7 @@ async function handleRequest() {
 
   try {
     // 并发访问
-    const requests = urls.map(url => fetch(url));
+    const requests = urls.map(url => fetch(url, init));
     const responses = await Promise.all(requests);
     // 获取每个响应的内容
     const contents = await Promise.all(responses.map(response => response.text()));
