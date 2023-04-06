@@ -71,7 +71,7 @@ async function handleRequest() {
     return new Response(ret, init);
 
   } catch (error) {
-    console.log("Error: " + error);
+    console.log(error);
   }
 }
 
@@ -106,17 +106,9 @@ function handleSS(rest) {
         if (matched) {
           remark = matched[0];
           return rest.substring(0, hashIndex + 1) + encodeURIComponent(remark);
-        } else {
-          return '';
         }
-      } else {
-        return '';
       }
-    } else {
-      return '';
     }
-  } else {
-    return '';
   }
 }
 
@@ -134,14 +126,8 @@ function handleSSR(rest) {
       if (matched) {
         remark = matched[0];
         return code.base64_encode(a.substring(0, hashIndex + text.length) + code.base64_encode(remark));
-      } else {
-        return '';
       }
-    } else {
-      return '';
     }
-  } else {
-    return '';
   }
 }
 
@@ -160,27 +146,25 @@ function handleVmess(rest) {
       if (matched) {
         remark = matched[0];
         return rest.substring(0, hashIndex + text.length) + encodeURIComponent(remark) + rest.substring(endIndex);
-      } else {
-        return '';
       }
     } else {
       // json
-      let json = JSON.parse(code.base64_decode(rest));
-      if (json) {
-        const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
-        const matched = json['ps'].match(pattern);
-        if (matched) {
-          json['ps'] = matched[0];
-          return code.base64_encode(JSON.stringify(json));
-        } else {
-          return '';
+      try {
+        let json = JSON.parse(code.base64_decode(rest));
+        if (json) {
+          const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
+          const matched = json['ps'].match(pattern);
+          if (matched) {
+            json['ps'] = matched[0];
+            return code.base64_encode(JSON.stringify(json));
+          } else {
+            return '';
+          }
         }
-      } else {
-        return '';
+      } catch (error) {
+        console.log(error);
       }
     }
-  } else {
-    return '';
   }
 }
 
