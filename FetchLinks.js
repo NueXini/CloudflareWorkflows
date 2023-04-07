@@ -24,53 +24,49 @@ async function handleRequest() {
     },
   };
 
-  try {
-    // 并发访问
-    const requests = urls.map(url => fetch(url, init));
-    const responses = await Promise.all(requests);
-    // 获取每个响应的内容
-    const contents = await Promise.all(responses.map(response => response.text()));
-    // 将所有内容合并为一个字符串
-    const result = contents.join('\n');
-    // 进行分割
-    let code = new CodecTransform();
-    let node = code.base64_decode(result).split("\n");
-    let ret = '';
-    node.forEach(link => {
-      // 将链接拆分成协议类型和其他部分
-      let [protocol, rest] = link.split('://');
-      // 对应协议匹配
-      switch (protocol.toLocaleLowerCase()) {
-        case "trojan":
-        case "ss":
-          let a = handleSS(rest);
-          if (a) {
-            ret += `${protocol}://${a}\r\n`;
-          }
-          break;
-        case "ssr":
-          let b = handleSSR(rest);
-          if (b) {
-            ret += `${protocol}://${b}\r\n`;
-          }
-          break;
-        case "vmess":
-          let c = handleVmess(rest);
-          if (c) {
-            ret += `${protocol}://${c}\r\n`;
-          }
-          break;
-        default:
-          break;
-      }
-    })
+  // 并发访问
+  const requests = urls.map(url => fetch(url, init));
+  const responses = await Promise.all(requests);
+  // 获取每个响应的内容
+  const contents = await Promise.all(responses.map(response => response.text()));
+  // 将所有内容合并为一个字符串
+  const result = contents.join('\n');
+  // 进行分割
+  let code = new CodecTransform();
+  let node = code.base64_decode(result).split("\n");
+  let ret = '';
+  node.forEach(link => {
+    // 将链接拆分成协议类型和其他部分
+    let [protocol, rest] = link.split('://');
+    // 对应协议匹配
+    switch (protocol.toLocaleLowerCase()) {
+      case "trojan":
+      case "ss":
+        let a = handleSS(rest);
+        if (a) {
+          ret += `${protocol}://${a}\r\n`;
+        }
+        break;
+      case "ssr":
+        let b = handleSSR(rest);
+        if (b) {
+          ret += `${protocol}://${b}\r\n`;
+        }
+        break;
+      case "vmess":
+        let c = handleVmess(rest);
+        if (c) {
+          ret += `${protocol}://${c}\r\n`;
+        }
+        break;
+      default:
+        break;
+    }
+  })
 
-    ret = code.base64_encode(ret);
-    return new Response(ret, init);
+  ret = code.base64_encode(ret);
+  return new Response(ret, init);
 
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 // 节点关键词
@@ -159,22 +155,18 @@ function handleVmess(rest) {
         return rest.substring(0, hashIndex + text.length) + encodeURIComponent(remark) + rest.substring(endIndex);
       }
     } else {
-      // json
-      try {
-        let json = JSON.parse(code.base64_decode(rest));
-        if (json) {
-          const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
-          let ansi = code.usc2ToAnsi(json['ps']);
-          const matched = ansi.match(pattern);
-          if (matched) {
-            json['ps'] = matched[0];
-            return code.base64_encode(JSON.stringify(json));
-          } else {
-            return '';
-          }
+      const decodedText = code.base64_decode(rest);
+      if (isJSON(decodedText)) {
+        let json = JSON.parse(decodedText);
+        const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
+        let ansi = code.usc2ToAnsi(json['ps']);
+        const matched = ansi.match(pattern);
+        if (matched) {
+          json['ps'] = matched[0];
+          return code.base64_encode(JSON.stringify(json));
+        } else {
+          return '';
         }
-      } catch (error) {
-        console.log(error);
       }
     }
   }
@@ -286,5 +278,14 @@ function CodecTransform() {
       result += String.fromCharCode(code);
     }
     return result;
+  }
+}
+
+function isJSON(str) {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
   }
 }
