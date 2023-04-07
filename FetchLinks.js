@@ -78,7 +78,7 @@ var keywords = [
   { cn: '新加披/狮城', en: ['SG', 'Singapore'] },
   { cn: '美国/洛杉矶', en: ['US', 'United States', 'America'] },
   { cn: '英国', en: ['United Kingdom', 'Great Britain'] },
-  { cn: '韩国', en: ['Korea', 'Seoul'] },
+  { cn: '韩国/首尔', en: ['Korea', 'Seoul'] },
   { cn: '澳大利亚/澳洲', en: ['AU', 'Australia'] },
   { cn: '泰国', en: ['Thailand'] },
   { cn: '印度', en: ['India'] },
