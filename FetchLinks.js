@@ -261,4 +261,13 @@ function CodecTransform() {
     }
     return string;
   }
+
+  this.usc2ToAnsi = function (str) {
+    var result = "";
+    for (var i = 0; i < str.length; i += 2) {
+      var code = parseInt(str.substr(i, 2), 16);
+      result += String.fromCharCode(code);
+    }
+    return result;
+  }
 }
