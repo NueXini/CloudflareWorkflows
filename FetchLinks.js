@@ -9,8 +9,11 @@ async function handleRequest() {
   let urls = [
     'https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub',
     'https://raw.githubusercontent.com/zhanghua6666/Putian-Share/main/Permanent%20Subscription',
+    'https://raw.githubusercontent.com/freefq/free/master/v2',
+    'https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub',
+    'https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2',
     'https://sub.sharecentre.online/sub',
-    'https://sub.pmsub.me/base64'
+    'https://sub.pmsub.me/base64',
   ];
 
   // Headers
