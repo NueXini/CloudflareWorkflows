@@ -76,11 +76,11 @@ var keywords = [
   { cn: '台湾/台北', en: ['TW', 'Taiwan', 'Tai wan'] },
   { cn: '日本/东京/大阪', en: ['JP', 'Japan'] },
   { cn: '新加披/狮城', en: ['SG', 'Singapore'] },
-  { cn: '美国/洛杉矶', en: ['US', 'United States'] },
-  { cn: '英国', en: ['EN', 'United Kingdom'] },
+  { cn: '美国/洛杉矶', en: ['US', 'United States', 'America'] },
+  { cn: '英国', en: ['EN', 'United Kingdom', 'English'] },
   { cn: '韩国', en: ['KR', 'Korea', 'Seoul'] },
   { cn: '澳大利亚', en: ['AU', 'Australia'] },
-  { cn: '泰国', en: ['TH', 'Thailand'] },
+  { cn: '泰国', en: ['Thailand'] },
   { cn: '印度', en: ['India'] },
   { cn: '俄罗斯', en: ['RU', 'Russia'] },
   { cn: '荷兰', en: ['Netherlands'] },
@@ -148,7 +148,6 @@ function handleVmess(rest) {
         let json = JSON.parse(code.base64_decode(rest));
         if (json) {
           const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
-          console.log(json['ps']);
           let ansi = code.usc2ToAnsi(json['ps']);
           const matched = ansi.match(pattern);
           if (matched) {
