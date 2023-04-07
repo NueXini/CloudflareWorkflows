@@ -148,7 +148,9 @@ function handleVmess(rest) {
         let json = JSON.parse(code.base64_decode(rest));
         if (json) {
           const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
-          const matched = json['ps'].match(pattern);
+          console.log(json['ps']);
+          let ansi = code.usc2ToAnsi(json['ps']);
+          const matched = ansi.match(pattern);
           if (matched) {
             json['ps'] = matched[0];
             return code.base64_encode(JSON.stringify(json));
