@@ -16,24 +16,28 @@ async function handleRequest() {
     'https://sub.pmsub.me/base64',
   ];
 
-  // Headers
   const init = {
     headers: {
-      'content-type': 'text/plain',
-      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
     },
   };
 
-  // 并发访问
-  const requests = urls.map(url => fetch(url, init));
-  const responses = await Promise.all(requests);
-  // 获取每个响应的内容
+  const responses = await Promise.all(urls.map(url => fetch(url, init)));
   const contents = await Promise.all(responses.map(response => response.text()));
-  // 将所有内容合并为一个字符串
-  const result = contents.join('\n');
-  // 进行分割
+  const nodes = await Promise.all(contents.map(text => handleLinks(text)));
   let code = new CodecTransform();
-  let node = code.base64_decode(result).split("\n");
+  let result = code.base64_encode(nodes.join());
+  return new Response(result,
+    {
+      headers: {
+        "Content-Type": "text/plain",
+      }
+    });
+}
+
+function handleLinks(text) {
+  let code = new CodecTransform();
+  let node = code.base64_decode(text).split("\n");
   let ret = '';
   node.forEach(link => {
     // 将链接拆分成协议类型和其他部分
@@ -63,10 +67,7 @@ async function handleRequest() {
         break;
     }
   })
-
-  ret = code.base64_encode(ret);
-  return new Response(ret, init);
-
+  return ret;
 }
 
 // 节点关键词
@@ -155,9 +156,8 @@ function handleVmess(rest) {
         return rest.substring(0, hashIndex + text.length) + encodeURIComponent(remark) + rest.substring(endIndex);
       }
     } else {
-      const decodedText = code.base64_decode(rest);
-      if (isJSON(decodedText)) {
-        let json = JSON.parse(decodedText);
+      try {
+        let json = JSON.parse(code.base64_decode(rest));
         const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
         let ansi = code.usc2ToAnsi(json['ps']);
         const matched = ansi.match(pattern);
@@ -167,6 +167,8 @@ function handleVmess(rest) {
         } else {
           return '';
         }
+      } catch (error) {
+        return;
       }
     }
   }
@@ -278,14 +280,5 @@ function CodecTransform() {
       result += String.fromCharCode(code);
     }
     return result;
-  }
-}
-
-function isJSON(str) {
-  try {
-    JSON.parse(str);
-    return true;
-  } catch (e) {
-    return false;
   }
 }
