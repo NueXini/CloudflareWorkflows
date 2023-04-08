@@ -78,14 +78,14 @@ var keywords = [
   { cn: '新加坡/狮城', en: ['SG', 'Singapore'] },
   { cn: '美国/洛杉矶', en: ['US', 'United States', 'America'] },
   { cn: '英国', en: ['United Kingdom', 'Great Britain'] },
-  { cn: '韩国/首尔', en: ['Korea', 'Seoul'] },
+  { cn: '韩国/首尔', en: ['KR', 'Korea', 'Seoul'] },
   { cn: '澳大利亚/澳洲', en: ['AU', 'Australia'] },
   { cn: '泰国', en: ['Thailand'] },
   { cn: '印度', en: ['India'] },
   { cn: '俄罗斯', en: ['Russia'] },
   { cn: '荷兰', en: ['Netherlands'] },
-  { cn: '德国', en: ['Germany'] },
-  { cn: '加拿大', en: ['Canada'] },
+  { cn: '德国', en: ['DE', 'Germany'] },
+  { cn: '加拿大', en: ['CA', 'Canada'] },
   { cn: '意大利', en: ['Italy'] },
   { cn: '阿根廷', en: ['Argentina'] },
   { cn: '法国', en: ['France'] },
@@ -98,6 +98,8 @@ var keywords = [
   { cn: '菲律宾', en: ['Philippine'] },
   { cn: '越南', en: ['VietNam', 'Viet Nam'] },
   { cn: '柬埔寨', en: ['Cambodia'] },
+  { cn: '乌克兰', en: ['Ukraine'] },
+  { cn: '阿联酋', en: ['UAE', 'United Arab Emirates'] },
 ];
 
 function handleSS(rest) {
