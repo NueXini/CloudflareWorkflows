@@ -1,73 +1,48 @@
 // NueXini
 
+var code = new CodecTransform();
+
 addEventListener('fetch', event => {
   return event.respondWith(handleRequest());
 });
 
 async function handleRequest() {
-  // 订阅链接
-  let urls = [
-    'https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub',
-    'https://raw.githubusercontent.com/zhanghua6666/Putian-Share/main/Permanent%20Subscription',
-    'https://raw.githubusercontent.com/freefq/free/master/v2',
-    'https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub',
-    'https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2',
-    'https://sub.sharecentre.online/sub',
-    'https://sub.pmsub.me/base64',
-  ];
+  try {
+    // 订阅链接
+    let urls = [
+      'https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub',
+      'https://raw.githubusercontent.com/zhanghua6666/Putian-Share/main/Permanent%20Subscription',
+      'https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub',
+      'https://sub.sharecentre.online/sub',
+      'https://sub.pmsub.me/base64',
+    ];
 
-  const init = {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
-    },
-  };
-
-  const responses = await Promise.all(urls.map(url => fetch(url, init)));
-  const contents = await Promise.all(responses.map(response => response.text()));
-  const nodes = await Promise.all(contents.map(text => handleLinks(text)));
-  let code = new CodecTransform();
-  let result = code.base64_encode(nodes.join());
-  return new Response(result,
-    {
+    const init = {
       headers: {
-        "Content-Type": "text/plain",
-      }
-    });
-}
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+      },
+    };
 
-function handleLinks(text) {
-  let code = new CodecTransform();
-  let node = code.base64_decode(text).split("\n");
-  let ret = '';
-  node.forEach(link => {
-    // 将链接拆分成协议类型和其他部分
-    let [protocol, rest] = link.split('://');
-    // 对应协议匹配
-    switch (protocol.toLocaleLowerCase()) {
-      case "trojan":
-      case "ss":
-        let a = handleSS(rest);
-        if (a) {
-          ret += `${protocol}://${a}\r\n`;
+    const responses = await Promise.all(urls.map(url => fetch(url, init)));
+    const contents = await Promise.all(responses.map(response => response.text()));
+    const nodes = await Promise.all(contents.map(text => handleLinks(text)));
+    let result = code.base64_encode(nodes.join());
+    return new Response(result,
+      {
+        headers: {
+          "Content-Type": "text/plain",
         }
-        break;
-      case "ssr":
-        let b = handleSSR(rest);
-        if (b) {
-          ret += `${protocol}://${b}\r\n`;
+      });
+
+  } catch (error) {
+    console.log(error);
+    return new Response(error,
+      {
+        headers: {
+          "Content-Type": "text/plain",
         }
-        break;
-      case "vmess":
-        let c = handleVmess(rest);
-        if (c) {
-          ret += `${protocol}://${c}\r\n`;
-        }
-        break;
-      default:
-        break;
-    }
-  })
-  return ret;
+      });
+  }
 }
 
 // 节点关键词
@@ -102,16 +77,51 @@ var keywords = [
   { cn: '阿联酋', en: ['UAE', 'United Arab Emirates'] },
 ];
 
+const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
+
+function handleLinks(text) {
+  let node = code.base64_decode(text).split("\n");
+  let ret = '';
+  for (const link of node) {
+    // 将链接拆分成协议类型和其他部分
+    let [protocol, rest] = link.split('://');
+    // 对应协议匹配
+    switch (protocol.toLocaleLowerCase()) {
+      case "trojan":
+      case "ss":
+        let a = handleSS(rest);
+        if (a) {
+          ret += `${protocol}://${a}\r\n`;
+        }
+        break;
+      case "ssr":
+        let b = handleSSR(rest);
+        if (b) {
+          ret += `${protocol}://${b}\r\n`;
+        }
+        break;
+      case "vmess":
+        let c = handleVmess(rest);
+        if (c) {
+          ret += `${protocol}://${c}\r\n`;
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  return ret;
+}
+
 function handleSS(rest) {
   if (rest) {
     const isPlugin = rest.indexOf("plugin");
     const isObfs = rest.indexOf("obfs");
     if ((isPlugin > 0 && isObfs > 0) || (isPlugin < 0 && isObfs < 0)) {
       const hashIndex = rest.lastIndexOf('#');
-      let remark = '';
       if (hashIndex > 0) {
+        let remark = '';
         remark = decodeURIComponent(rest.substring(hashIndex + 1));
-        const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
         const matched = remark.match(pattern);
         if (matched) {
           remark = matched[0];
@@ -124,14 +134,12 @@ function handleSS(rest) {
 
 function handleSSR(rest) {
   if (rest) {
-    let code = new CodecTransform();
     const a = code.base64_decode(rest);
     const text = '&remarks=';
     const hashIndex = a.lastIndexOf(text);
-    let remark = '';
     if (hashIndex > 0) {
+      let remark = '';
       remark = code.base64_decode(a.substring(hashIndex + text.length));
-      const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
       const matched = remark.match(pattern);
       if (matched) {
         remark = matched[0];
@@ -144,14 +152,12 @@ function handleSSR(rest) {
 function handleVmess(rest) {
   if (rest) {
     const text = "remarks=";
-    let code = new CodecTransform();
     // ?remarks=
     const hashIndex = rest.indexOf(text);
     if (hashIndex > 0) {
       const endIndex = rest.indexOf("&", hashIndex);
       let remark = '';
       remark = decodeURIComponent(rest.substring(hashIndex + text.length, endIndex));
-      const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
       const matched = remark.match(pattern);
       if (matched) {
         remark = matched[0];
@@ -160,7 +166,6 @@ function handleVmess(rest) {
     } else {
       try {
         let json = JSON.parse(code.base64_decode(rest));
-        const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
         let ansi = code.usc2ToAnsi(json['ps']);
         const matched = ansi.match(pattern);
         if (matched) {
