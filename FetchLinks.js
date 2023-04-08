@@ -75,7 +75,7 @@ var keywords = [
   { cn: '香港', en: ['HK', 'HongKong', 'Hong Kong'] },
   { cn: '台湾/台北', en: ['TW', 'Taiwan', 'Tai wan'] },
   { cn: '日本/东京/大阪', en: ['JP', 'Japan'] },
-  { cn: '新加披/狮城', en: ['SG', 'Singapore'] },
+  { cn: '新加坡/狮城', en: ['SG', 'Singapore'] },
   { cn: '美国/洛杉矶', en: ['US', 'United States', 'America'] },
   { cn: '英国', en: ['United Kingdom', 'Great Britain'] },
   { cn: '韩国/首尔', en: ['Korea', 'Seoul'] },
