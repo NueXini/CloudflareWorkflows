@@ -166,8 +166,7 @@ function handleVmess(rest) {
     } else {
       try {
         let json = JSON.parse(code.base64_decode(rest));
-        let ansi = code.usc2ToAnsi(json['ps']);
-        const matched = ansi.match(pattern);
+        const matched = json['ps'].match(pattern);
         if (matched) {
           json['ps'] = matched[0];
           return code.base64_encode(JSON.stringify(json));
@@ -278,14 +277,5 @@ function CodecTransform() {
       }
     }
     return string;
-  }
-
-  this.usc2ToAnsi = function (str) {
-    var result = "";
-    for (var i = 0; i < str.length; i += 2) {
-      var code = parseInt(str.substr(i, 2), 16);
-      result += String.fromCharCode(code);
-    }
-    return result;
   }
 }
