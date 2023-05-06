@@ -15,6 +15,7 @@ async function handleRequest() {
       'https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub',
       'https://sub.sharecentre.online/sub',
       'https://sub.pmsub.me/base64',
+      'https://sub.yxjnode.com/sub',
     ];
 
     const init = {
@@ -52,13 +53,13 @@ var keywords = [
   { cn: '日本/东京/大阪', en: ['JP', 'Japan'] },
   { cn: '新加坡/狮城', en: ['SG', 'Singapore'] },
   { cn: '美国/洛杉矶', en: ['US', 'United States', 'America'] },
-  { cn: '英国', en: ['United Kingdom', 'Great Britain'] },
+  { cn: '英国', en: ['GB', 'United Kingdom', 'Great Britain'] },
   { cn: '韩国/首尔', en: ['KR', 'Korea', 'Seoul'] },
   { cn: '澳大利亚/澳洲', en: ['AU', 'Australia'] },
   { cn: '泰国', en: ['Thailand'] },
   { cn: '印度', en: ['India'] },
   { cn: '俄罗斯', en: ['Russia'] },
-  { cn: '荷兰', en: ['Netherlands'] },
+  { cn: '荷兰', en: ['NL', 'Netherlands'] },
   { cn: '德国', en: ['DE', 'Germany'] },
   { cn: '加拿大', en: ['CA', 'Canada'] },
   { cn: '意大利', en: ['Italy'] },
@@ -75,6 +76,10 @@ var keywords = [
   { cn: '柬埔寨', en: ['Cambodia'] },
   { cn: '乌克兰', en: ['Ukraine'] },
   { cn: '阿联酋', en: ['UAE', 'United Arab Emirates'] },
+  { cn: '迪拜', en: ['Dubai'] },
+  { cn: '卢森堡', en: ['Luxembourg'] },
+  { cn: '以色列', en: ['Israel'] },
+  { cn: '瑞典', en: ['Sverige'] },
 ];
 
 const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
