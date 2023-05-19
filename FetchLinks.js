@@ -57,7 +57,7 @@ var keywords = [
   { cn: '韩国/首尔', en: ['KR', 'Korea', 'Seoul'] },
   { cn: '澳大利亚/澳洲', en: ['AU', 'Australia'] },
   { cn: '泰国', en: ['Thailand'] },
-  { cn: '印度', en: ['India'] },
+  { cn: '印度', en: ['IN', 'India'] },
   { cn: '俄罗斯', en: ['Russia'] },
   { cn: '荷兰', en: ['NL', 'Netherlands'] },
   { cn: '德国', en: ['DE', 'Germany'] },
@@ -77,7 +77,7 @@ var keywords = [
   { cn: '乌克兰', en: ['Ukraine'] },
   { cn: '阿联酋', en: ['UAE', 'United Arab Emirates'] },
   { cn: '迪拜', en: ['Dubai'] },
-  { cn: '卢森堡', en: ['Luxembourg'] },
+  { cn: '卢森堡', en: ['LU', 'Luxembourg'] },
   { cn: '以色列', en: ['Israel'] },
   { cn: '瑞典', en: ['Sverige'] },
 ];
