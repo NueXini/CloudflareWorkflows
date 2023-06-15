@@ -48,7 +48,7 @@ async function handleRequest() {
 
 // 节点关键词
 var keywords = [
-  { cn: '香港', en: ['HK', 'HongKong', 'Hong Kong'] },
+  { cn: '香港/广港/深港', en: ['HK', 'HongKong', 'Hong Kong'] },
   { cn: '台湾/台北', en: ['TW', 'Taiwan', 'Tai wan'] },
   { cn: '日本/东京/大阪', en: ['JP', 'Japan'] },
   { cn: '新加坡/狮城', en: ['SG', 'Singapore'] },
@@ -70,8 +70,8 @@ var keywords = [
   { cn: '澳门', en: ['Macao'] },
   { cn: '土耳其', en: ['Turkey'] },
   { cn: '巴基斯坦', en: ['Pakistan'] },
-  { cn: '印度尼西亚', en: ['Indonesia'] },
-  { cn: '菲律宾', en: ['Philippine'] },
+  { cn: '印度尼西亚', en: ['ID', 'Indonesia'] },
+  { cn: '菲律宾', en: ['PH', 'Philippine'] },
   { cn: '越南', en: ['VietNam', 'Viet Nam'] },
   { cn: '柬埔寨', en: ['Cambodia'] },
   { cn: '乌克兰', en: ['Ukraine'] },
@@ -80,6 +80,7 @@ var keywords = [
   { cn: '卢森堡', en: ['LU', 'Luxembourg'] },
   { cn: '以色列', en: ['Israel'] },
   { cn: '瑞典', en: ['Sverige'] },
+  { cn: '冰岛', en: ['Iceland'] },
 ];
 
 const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
