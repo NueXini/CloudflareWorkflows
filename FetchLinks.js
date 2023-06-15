@@ -81,6 +81,8 @@ var keywords = [
   { cn: '以色列', en: ['Israel'] },
   { cn: '瑞典', en: ['Sverige'] },
   { cn: '冰岛', en: ['Iceland'] },
+  { cn: '巴西', en: ['Brazil'] },
+  { cn: '西班牙', en: ['Spain'] },
 ];
 
 const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
