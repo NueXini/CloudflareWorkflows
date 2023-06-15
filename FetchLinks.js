@@ -190,7 +190,7 @@ function handleVmess(rest) {
 
 function CodecTransform() {
   // private property 
-  _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  const _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   // public method for encoding 
   this.base64_encode = function (input) {
     var output = "";
@@ -267,7 +267,10 @@ function CodecTransform() {
   this.utf8_decode = function (utftext) {
     var string = "";
     var i = 0;
-    var c = c1 = c2 = 0;
+    let c = 0;
+    let c1 = 0;
+    let c2 = 0;
+    let c3 = 0;
     while (i < utftext.length) {
       c = utftext.charCodeAt(i);
       if (c < 128) {
