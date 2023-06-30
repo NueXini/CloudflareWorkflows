@@ -4,6 +4,10 @@
 
 ## What are they?
 
-- `FetchLinks.js`
+- `FetchLinks-v1.js`
 
 这是一个批量获取机场订阅，并且去除其他信息只保留关键字，返回一个新的整合订阅
+
+- `FetchLinks-v2.js`
+
+针对不同路由进行不同的订阅返回
