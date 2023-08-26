@@ -11,7 +11,6 @@ export default {
       case '/freenode':
         urls = [
           'https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub',
-          'https://raw.githubusercontent.com/zhanghua6666/Putian-Share/main/Permanent%20Subscription',
           'https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub',
           'https://sub.sharecentre.online/sub',
           'https://sub.pmsub.me/base64',
@@ -68,6 +67,7 @@ var keywords = [
   { cn: '美国/洛杉矶/硅谷', en: ['US', 'United States', 'America'] },
   { cn: '英国', en: ['UK', 'United Kingdom', 'Great Britain'] },
   { cn: '韩国/首尔', en: ['KR', 'Korea', 'Seoul'] },
+  { cn: '朝鲜', en: ['South Korea', 'SouthKorea'] },
   { cn: '澳大利亚/澳洲', en: ['AU', 'Australia'] },
   { cn: '泰国', en: ['Thailand'] },
   { cn: '印度', en: ['IN', 'India'] },
@@ -96,6 +96,7 @@ var keywords = [
   { cn: '冰岛', en: ['Iceland'] },
   { cn: '巴西', en: ['Brazil'] },
   { cn: '西班牙', en: ['Spain'] },
+  { cn: '其他', en: ['DP', 'BuyVM', 'SW', 'NNC'] },
 ];
 
 const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
