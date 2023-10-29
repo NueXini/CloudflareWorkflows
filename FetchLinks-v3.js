@@ -100,6 +100,7 @@ var keywords = [
     { cn: '西班牙', en: ['Spain'] },
     { cn: '埃及', en: ['Egypt'] },
     { cn: '尼日利亚', en: ['Nigeria'] },
+    { cn: '缅甸', en: ['Myanmar'] },
     { cn: '其他/南极', en: ['DP', 'BuyVM', 'SW', 'NNC'] },
 ];
 
