@@ -103,6 +103,7 @@ var keywords = [
 ];
 
 const pattern = new RegExp(`(${keywords.map(kw => kw.cn.split('/').map(subkw => subkw.trim()).join('|') + '|' + kw.en.join('|')).join('|')})`);
+let num = 0;
 
 function handleLinks(text) {
     let node = code.base64_decode(text).split("\n");
@@ -149,7 +150,8 @@ function handleSS(rest) {
                 remark = decodeURIComponent(rest.substring(hashIndex + 1));
                 const matched = remark.match(pattern);
                 if (matched) {
-                    remark = matched[0];
+                    remark = matched[0] + num.toString();
+                    num++;
                     return rest.substring(0, hashIndex + 1) + encodeURIComponent(remark);
                 }
             }
@@ -167,7 +169,8 @@ function handleSSR(rest) {
             remark = code.base64_decode(a.substring(hashIndex + text.length));
             const matched = remark.match(pattern);
             if (matched) {
-                remark = matched[0];
+                remark = matched[0] + num.toString();
+                num++;
                 return code.base64_encode(a.substring(0, hashIndex + text.length) + code.base64_encode(remark));
             }
         }
@@ -185,7 +188,8 @@ function handleVmess(rest) {
             remark = decodeURIComponent(rest.substring(hashIndex + text.length, endIndex));
             const matched = remark.match(pattern);
             if (matched) {
-                remark = matched[0];
+                remark = matched[0] + num.toString();
+                num++;
                 return rest.substring(0, hashIndex + text.length) + encodeURIComponent(remark) + rest.substring(endIndex);
             }
         } else {
@@ -193,7 +197,8 @@ function handleVmess(rest) {
                 let json = JSON.parse(code.base64_decode(rest));
                 const matched = json['ps'].match(pattern);
                 if (matched) {
-                    json['ps'] = matched[0];
+                    json['ps'] = matched[0] + num.toString();
+                    num++;
                     return code.base64_encode(JSON.stringify(json));
                 } else {
                     return '';
