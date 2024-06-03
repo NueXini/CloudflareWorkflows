@@ -10,8 +10,7 @@ export default {
         switch (path.toLowerCase()) {
             case '/freenode':
                 urls = [
-                    'https://sub.sharecentre.online/sub',
-                    'https://sub.pmsub.me/base64',
+                    'https://sub.sharecentre.online/sub'
                 ];
                 break;
 
@@ -35,7 +34,7 @@ async function handleRequest(urls) {
     try {
         const init = {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
             },
         };
 
