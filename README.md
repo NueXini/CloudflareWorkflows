@@ -11,3 +11,7 @@
 - `FetchLinks-v2.js`
 
 针对不同路由进行不同的订阅返回
+
+- `FetchLinks-v3.js`
+
+与`FetchLinks-v2.js`大同小异，增加了默认返回选项
