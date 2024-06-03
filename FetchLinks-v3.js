@@ -6,32 +6,33 @@ export default {
         const path = url.pathname;
         // 订阅链接
         let urls = [];
+        let expiredTime = 0; // YYYYMMDD
 
         switch (path.toLowerCase()) {
             case '/freenode':
+                expiredTime = 99999999;
                 urls = [
-                    'https://sub.sharecentre.online/sub'
+                    'https://sub.sharecentre.online/sub',
                 ];
                 break;
 
             default:
-                return new Response(
-                    'dm1lc3M6Ly9leUoySWpvaU1pSXNJbkJ6SWpvaVNHVnNiRzhpTENKaFpHUWlPaUpqWmk1NWVHcHViMlJsTG1OdmJTSXNJbkJ2Y25RaU9pSTRNQ0lzSW1sa0lqb2lNRGxqTVdRek1tUXRORFExT0MwMFpXSm1MV0l6Tm1RdE5HUmtOek15WW1GbE0yRmhJaXdpWVdsa0lqb2lNQ0lzSW01bGRDSTZJbmR6SWl3aWRIbHdaU0k2SW01dmJtVWlMQ0pvYjNOMElqb2laSEF4TG5sNGFtNXZaR1V1WTI5dElpd2ljR0YwYUNJNklsd3ZlWGg2WW5BaUxDSjBiSE1pT2lJaWZRPT0=',
-                    {
-                        headers: { 'Content-Type': 'text/plain' },
-                    },
-                );
+                return HasbeenExpired();
                 break;
         }
 
-        return handleRequest(urls);
+        return handleRequest(urls, expiredTime);
     }
 };
 
 var code = new CodecTransform();
 
-async function handleRequest(urls) {
+async function handleRequest(urls, expiredTime) {
     try {
+        if (CheckExpiredTime(expiredTime)) {
+            return HasbeenExpired();
+        }
+
         const init = {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
@@ -209,6 +210,34 @@ function handleVmess(rest) {
             }
         }
     }
+}
+
+function CheckExpiredTime(expiredTime) {
+    const date = new Date(Date.now());
+    const year = date.getUTCFullYear(); // 获取年份
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // 获取月份，加1因为月份是从0开始的
+    const day = date.getUTCDate().toString().padStart(2, '0'); // 获取日期
+
+    const currentTime = `${year}${month}${day}`;
+    // return expiredTime; // 返回格式化的日期字符串
+
+    // expiredTime should be like 20240603
+
+    if (expiredTime < currentTime) {
+        return true; // Expired
+    } else {
+        return false; // Unexpired
+    }
+}
+
+function HasbeenExpired() {
+    let defalutSub = 'dm1lc3M6Ly9leUoySWpvaU1pSXNJbkJ6SWpvaVNHVnNiRzhpTENKaFpHUWlPaUpqWmk1NWVHcHViMlJsTG1OdmJTSXNJbkJ2Y25RaU9pSTRNQ0lzSW1sa0lqb2lNRGxqTVdRek1tUXRORFExT0MwMFpXSm1MV0l6Tm1RdE5HUmtOek15WW1GbE0yRmhJaXdpWVdsa0lqb2lNQ0lzSW01bGRDSTZJbmR6SWl3aWRIbHdaU0k2SW01dmJtVWlMQ0pvYjNOMElqb2laSEF4TG5sNGFtNXZaR1V1WTI5dElpd2ljR0YwYUNJNklsd3ZlWGg2WW5BaUxDSjBiSE1pT2lJaWZRPT0=';
+    return new Response(
+        defalutSub,
+        {
+            headers: { 'Content-Type': 'text/plain' },
+        },
+    );
 }
 
 function CodecTransform() {

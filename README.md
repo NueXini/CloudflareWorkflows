@@ -14,4 +14,4 @@
 
 - `FetchLinks-v3.js`
 
-与`FetchLinks-v2.js`大同小异，增加了默认返回选项
+与`FetchLinks-v2.js`大同小异，增加了默认返回选项,与过期时间
